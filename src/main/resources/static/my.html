@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="https://igv.org/web/img/favicon.ico">
+
+    <title>igv.js</title>
+
+    <!-- IGV JS-->
+    <script src="igv.esm.js"></script>
+
+</head>
+
+<body>
+
+<h1>Alignments from a CRAM file</h1>
+
+<div id="igv-div" style="padding-top: 10px;padding-bottom: 10px; border:1px solid lightgray"></div>
+
+<script type="text/javascript">
+
+
+re = function () {
+
+<!--    var fr = new FileReader();-->
+
+        var options =
+        {
+            genomeList: "http://10.10.114.9:8080/genomes.json",
+            genome: "hg38",
+            clusterurl : "http://10.10.114.9:8080/cluster/4.bam",
+            locus: "chr15:67,514,699-67,774,903",
+            tracks: [
+                {
+                    format: 'bed',
+                    url: 'http://10.10.114.9:8080/bed/test2.bed'
+                }
+            ,
+            {
+                format : 'bam',
+                url : 'http://10.10.114.9:8080/bigbam/4.bam',
+                indexURL: 'http://10.10.114.9:8080/bam/4.bam.bai'
+            }
+
+            ]
+        };
+
+        var igvDiv = document.getElementById("igv-div");
+
+        igv.createBrowser(igvDiv, options)
+                .then(function (browser) {
+                    console.log("Created IGV browser");
+                });
+    };
+
+</script>
+</body>
+<p><input type="button" value="载入" onClick="re();" /></p>
+
+</html>

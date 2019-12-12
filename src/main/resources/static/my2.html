@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="https://igv.org/web/img/favicon.ico">
+
+    <title>igv.js</title>
+
+    <!-- IGV JS-->
+    <script src="igv.esm.js"></script>
+
+</head>
+
+<body>
+
+<h1>查看本地cluster文件</h1>
+
+
+<p>
+    <label>请按照要求输入文件(若输入错误会导致显示出错，请刷新重试)：</label>
+    <hr>
+    <label>请注意，由于浏览器资源限制，设置visibility大小时按需设置，请勿设置过大，导致占用内存过多而奔溃</label>
+    <hr>
+    <label>若出现genome载入失败，请刷新重试，这个是igv服务器不稳定导致的</label>
+    <table border = "1" id="addSample" style="display:none">
+
+        <tr>
+            <td>请输入默认sample文件</td>
+            <td><input type="file" id="newsample" /></td>
+            <td>请输入bam文件index</td>
+            <td><input type="file" id="newsampleindex" /></td>
+            <td><input type="button" value="载入" onClick="addSample();" /></td>
+        </tr>
+
+
+    </table>
+    <div id="igv-div" style="padding-top: 10px;padding-bottom: 10px; border:1px solid lightgray"></div>
+    <table border = "1" id="loadIGV">
+
+        <tr>
+            <td>请输入默认sample文件</td>
+            <td><input type="file" id="bamfile" /></td>
+            <td>请输入bam文件index</td>
+            <td><input type="file" id="bamindex" /></td>
+        </tr>
+        <tr>
+            <td>输入Cluster信息文件</td>
+            <td><input type="file" id="cluster" /></td>
+            <td>请输入Cluster信息index</td>
+            <td><input type="file" id="indexfile" /></td>
+        </tr>
+        <tr>
+            <td>请输入Clusters bed文件</td>
+            <td><input type="file" id="bedfile" /></td>
+            <td>点击载入IGV</td>
+            <td><input type="button" value="载入" onClick="loadIGV();" />
+        </tr>
+</table>
+</p>
+
+<script type="text/javascript">
+
+
+loadIGV = function () {
+    document.getElementById("loadIGV").setAttribute("style","display:none");
+    document.getElementById("addSample").setAttribute("style","");
+    var bedfile = document.getElementById("bedfile").files[0];
+    var indexfile = document.getElementById("indexfile").files[0];
+    var cluster = document.getElementById("cluster").files[0];
+    var bamfile = document.getElementById("bamfile").files[0];
+    var bamindex = document.getElementById("bamindex").files[0];
+        var options =
+        {
+            genomeList: "genomes.json",
+            genome: "hg38",
+            locus: 'chr15:67,514,699-67,774,903',
+            clusterurl:cluster,
+            clusterindexurl:indexfile,
+            tracks: [
+                {
+                    format: 'bed',
+                    url: bedfile
+                }
+            ]
+        };
+
+        var igvDiv = document.getElementById("igv-div");
+
+        igv.createBrowser(igvDiv, options)
+                .then(function (browser) {
+                    console.log("Created IGV browser");
+                    igv.samplenames = [];
+                    igv.decodedclusterindex(igv.browser.config.clusterindexurl);
+                    igv.clusterfiles = [];
+                    igv.clusterfiles["default"] = [];
+                    igv.clusterfiles["default"].url = bamfile;
+                    igv.clusterfiles["default"].indexurl = bamindex;
+                    var sampleName = bamfile.name.substring(0, bamfile.name.lastIndexOf("."));
+                    igv.clusterfiles["default"].name = sampleName;
+                    igv.clusterfiles[sampleName] = igv.clusterfiles["default"];
+                    igv.samplenames.push(sampleName);
+                });
+    };
+addSample = function(){
+    var newsample = document.getElementById("newsample").files[0];
+    var newsampleindex = document.getElementById("newsampleindex").files[0];
+    var sampleName = newsample.name.substring(0, newsample.name.lastIndexOf("."));
+    if(igv.samplenames.includes(sampleName)){
+        window.alert("Sample已经存在");
+        return;
+    }
+    igv.clusterfiles[sampleName] = [];
+    igv.clusterfiles[sampleName].url = newsample;
+    igv.clusterfiles[sampleName].indexurl = newsampleindex;
+    igv.clusterfiles[sampleName].name = sampleName;
+    igv.samplenames.push(sampleName);
+    window.alert("添加新Sample成功");
+    console.log()
+    };
+</script>
+
+</body>
+
+</html>

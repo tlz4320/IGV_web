@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="https://igv.org/web/img/favicon.ico">
+
+    <title>igv.js</title>
+
+    <!-- IGV JS-->
+    <script src="igv.esm.js"></script>
+
+</head>
+
+<body>
+
+<h1>Alignments from a CRAM file</h1>
+
+<div id="igv-div" style="padding-top: 10px;padding-bottom: 10px; border:1px solid lightgray"></div>
+
+<script type="text/javascript">
+
+
+re = function () {
+    var bedfile = document.getElementById("bedfile").files[0];
+    var indexfile = document.getElementById("indexfile").files[0];
+    var cluster = document.getElementById("cluster").files[0];
+
+        var options =
+        {
+            genome: {
+                id: "myCustomGenome",
+                fastaURL: 'http://10.10.114.9:8080/chrIS.fa',
+                indexURL: 'http://10.10.114.9:8080/chrIS.fa.fai',
+                // cytobandURL: "https://s3.amazonaws.com/igv.broadinstitute.org/genomes/seq/hg19/cytoBand.txt"
+            },
+            locus: "chrIS:89,617-104,077",
+            clusterurl:cluster,
+            clusterindexurl:indexfile,
+            tracks: [
+                {
+                    format: 'bed',
+                    url: bedfile
+
+                }
+
+            ]
+        };
+
+        var igvDiv = document.getElementById("igv-div");
+
+        igv.createBrowser(igvDiv, options)
+                .then(function (browser) {
+                    console.log("Created IGV browser");
+                });
+    };
+
+</script>
+<p> 
+    <label>请选择一个文件：</label> 
+    <input type="file" id="bedfile" />
+    <input type="file" id="indexfile" />
+    <input type="file" id="cluster" /> 
+    <input type="button" value="载入" onClick="re();" /> 
+</p> 
+</body>
+
+</html>
