@@ -1,5 +1,6 @@
 package com.Treeh.Tobin;
 
+import com.Treeh.Tobin.utils.MConfig;
 import htsjdk.samtools.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class BamController {
         request.getRequestURI();
         if(filename.endsWith(".bai")){
             try {
-                byte[] file = fileToByte("D:\\program\\code\\4\\igv.js\\examples\\" + filename, 0, -1);
+                byte[] file = fileToByte(MConfig.prefix + filename, 0, -1);
                 return  new ResponseEntity<>(file, headers, HttpStatus.OK);
             }catch (Exception e){
                 return  new ResponseEntity<>(null, headers, HttpStatus.NOT_ACCEPTABLE);
@@ -42,7 +43,7 @@ public class BamController {
 
         long begin = Long.parseLong(position[0]);
         long end = Long.parseLong(position[1]);
-        byte[] file = fileToByte("D:\\program\\code\\4\\igv.js\\examples\\"+filename, begin, end);
+        byte[] file = fileToByte(MConfig.prefix+filename, begin, end);
         if(file == null)
             return  new ResponseEntity<>(null, headers, HttpStatus.NOT_ACCEPTABLE);
         else
@@ -70,7 +71,7 @@ public class BamController {
         long end = Long.parseLong(position[1]);
 
         HashMap<String, HashSet<SAMRecord>> sample2read = new HashMap<>();
-        File file = new File("D:\\program\\data\\4\\data");
+        File file = new File(MConfig.prefix);
         File[] files = file.listFiles();
         int totalread = 0;
         for(File f : files) {

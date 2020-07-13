@@ -30,20 +30,20 @@ re = function () {
 
         var options =
         {
-            genomeList: "http://10.10.114.9:8080/genomes.json",
+            genomeList: "http://10.10.119.189:2382/genomes.json",
             genome: "hg38",
-            clusterurl : "http://10.10.114.9:8080/cluster/4.bam",
+            clusterurl : "http://10.10.119.189:2382/cluster/4.bam",
             locus: "chr15:67,514,699-67,774,903",
             tracks: [
                 {
                     format: 'bed',
-                    url: 'http://10.10.114.9:8080/bed/test2.bed'
+                    url: 'http://10.10.119.189:2382/bed/test2.bed'
                 }
             ,
             {
                 format : 'bam',
-                url : 'http://10.10.114.9:8080/bigbam/4.bam',
-                indexURL: 'http://10.10.114.9:8080/bam/4.bam.bai'
+                url : 'http://10.10.119.189:2382/bigbam/4.bam',
+                indexURL: 'http://10.10.119.189:2382/bam/4.bam.bai'
             }
 
             ]

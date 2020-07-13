@@ -3,6 +3,7 @@ package com.Treeh.Tobin;
 
 import com.Treeh.Tobin.Bed.Bin;
 import com.Treeh.Tobin.Bed.DecodeBed;
+import com.Treeh.Tobin.utils.MConfig;
 import com.Treeh.Tobin.utils.Readwithsample;
 import htsjdk.samtools.SAMRecord;
 import htsjdk.samtools.SAMRecordIterator;
@@ -67,14 +68,14 @@ public class ClusterController {
     static public byte[] getreads(String clustername, String sample, String chr, int start, int end) throws Exception {
         if(!samplename.contains(sample))
             sample = samplename.get(0);
-        SamReader reader = SamReaderFactory.makeDefault().open(new File("D:\\program\\data\\4\\data\\" + sample));
+        SamReader reader = SamReaderFactory.makeDefault().open(new File(MConfig.prefix + sample));
         chr = chr.substring(3);
         SAMRecordIterator it = reader.queryContained(chr, start, end);
         HashSet<Bin> set = index.getRegin(chr, start, end);
         HashSet<String> samplereads = new HashSet<>();
         for(Bin bin : set) {
             samplereads.addAll(
-                    DecodeBed.getBedReads(fileToByte("D:\\program\\data\\4\\data\\out2.txt", bin.getBegin(), bin.getBegin() + bin.getWidth() - 1),
+                    DecodeBed.getBedReads(fileToByte(MConfig.prefix + "out2.txt", bin.getBegin(), bin.getBegin() + bin.getWidth() - 1),
                             clustername));
         }
         String readname;

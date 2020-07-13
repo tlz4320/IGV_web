@@ -1,5 +1,6 @@
 package com.Treeh.Tobin;
 
+import com.Treeh.Tobin.utils.MConfig;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class GenomeController {
             return new ResponseEntity<>(null, headers, HttpStatus.NOT_ACCEPTABLE);
         long begin = Long.parseLong(position[0]);
         long end = Long.parseLong(position[1]);
-        byte[] res = fileToByte("D:\\program\\project\\Tobin\\hg38.fa", begin, end);
+        byte[] res = fileToByte(MConfig.prefix + "hg38.fa", begin, end);
         return  new ResponseEntity<>(res, headers, HttpStatus.PARTIAL_CONTENT);
     }
 }

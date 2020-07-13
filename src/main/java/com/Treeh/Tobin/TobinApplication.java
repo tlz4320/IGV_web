@@ -1,6 +1,7 @@
 package com.Treeh.Tobin;
 
 import com.Treeh.Tobin.Bed.BedIndex;
+import com.Treeh.Tobin.utils.MConfig;
 import htsjdk.samtools.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,6 +19,7 @@ import java.util.*;
 import static com.Treeh.Tobin.Util.fileToByte;
 import static com.Treeh.Tobin.Util.makefinaldata;
 
+
 @SpringBootApplication
 @Controller
 public class TobinApplication {
@@ -25,11 +27,11 @@ public class TobinApplication {
     static public BedIndex index;
     static public LinkedList<String> samplename;
 	public static void main(String[] args) {
-        cluster = new ImportCluster("D:\\program\\data\\4\\data\\result.txt");
+        cluster = new ImportCluster(MConfig.prefix +"result.txt");
 //        cluster.loadData();
         index = new BedIndex();
-        index.readIndex("D:\\program\\data\\4\\data\\out2.txt.bdx");
-        File file = new File("D:\\program\\data\\4\\data");
+        index.readIndex(MConfig.prefix +"out2.txt.bdx");
+        File file = new File(MConfig.prefix +"data");
         samplename = new LinkedList<>();
         File[] files = file.listFiles();
         for(File f : files){

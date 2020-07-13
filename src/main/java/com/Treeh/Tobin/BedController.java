@@ -2,6 +2,7 @@ package com.Treeh.Tobin;
 
 import com.Treeh.Tobin.Bed.BedIndex;
 import com.Treeh.Tobin.Bed.Bin;
+import com.Treeh.Tobin.utils.MConfig;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +37,9 @@ public class BedController {
         byte[][] tempbytes = new byte[set.size()][];
         int i = 0;
         for(Bin bin : set){
-            tempbytes[i++] = decodeBed(fileToByte("D:\\program\\data\\4\\data\\out2.txt",bin.getBegin() , bin.getBegin() + bin.getWidth() - 1));
+            tempbytes[i++] = decodeBed(fileToByte(MConfig.prefix + "out2.txt",bin.getBegin() , bin.getBegin() + bin.getWidth() - 1));
         }
+        //data/4/data
         byte[] res = byteMergerAll(tempbytes);
         return  new ResponseEntity<>(res, headers, HttpStatus.OK);
     }
@@ -54,7 +56,7 @@ public class BedController {
         int startposition = Integer.parseInt(start);
         int endposition = Integer.parseInt(end);
         BedIndex index = new BedIndex();
-        index.readIndex("D:\\program\\code\\4\\igv.js\\examples\\" + filename);
+        index.readIndex(MConfig.prefix + filename);
         HashSet<Bin> set = index.getRegin(chr, startposition, endposition);
         StringBuilder builder = new StringBuilder();
         builder.append("[");

@@ -2,15 +2,15 @@
   {
     "id": "hg38",
     "name": "Human (GRCh38/hg38)",
-    "fastaURL": "http://127.0.0.1:8080/genomes/hg38.fa",
-    "indexURL": "http://127.0.0.1:8080/hg38.fa.fai",
-    "cytobandURL": "http://127.0.0.1:8080/cytoBandIdeo.txt.gz",
+    "fastaURL": "http://10.10.119.189:2382/genomes/hg38.fa",
+    "indexURL": "http://10.10.119.189:2382/hg38.fa.fai",
+    "cytobandURL": "http://10.10.119.189:2382/cytoBandIdeo.txt.gz",
     "tracks": [
       {
         "name": "Refseq Genes",
         "format": "refgene",
-        "url": "http://127.0.0.1:8080/refGene.sorted.txt.gz",
-        "indexURL": "http://127.0.0.1:8080/refGene.sorted.txt.gz.tbi",
+        "url": "http://10.10.119.189:2382/refGene.sorted.txt.gz",
+        "indexURL": "http://10.10.119.189:2382/refGene.sorted.txt.gz.tbi",
         "visibilityWindow": -1,
         "removable": false,
         "order": 1000000
